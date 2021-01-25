@@ -1,84 +1,86 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'coin_view.dart';
+import 'locator.dart';
 
-Future<Album> fetchAlbum() async {
-  final response =
-  await http.get('https://jsonplaceholder.typicode.com/albums/1');
-
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return Album.fromJson(jsonDecode(response.body));
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load album');
-  }
+void main() {
+  setupLocator();
+  runApp(MyApp());
 }
 
-class Album {
-  final int userId;
-  final int id;
-  final String title;
-
-  Album({this.userId, this.id, this.title});
-
-  factory Album.fromJson(Map<String, dynamic> json) {
-    return Album(
-      userId: json['userId'],
-      id: json['id'],
-      title: json['title'],
-    );
-  }
-}
-
-void main() => runApp(MyApp());
-
-class MyApp extends StatefulWidget {
-  MyApp({Key key}) : super(key: key);
-
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  Future<Album> futureAlbum;
-
-  @override
-  void initState() {
-    super.initState();
-    futureAlbum = fetchAlbum();
-  }
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'PortFolio - Litium',
-      theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
-      ),
+      title: "Hello World Travel Title",
       home: Scaffold(
         appBar: AppBar(
-          title: Text('PortFolio - Litium'),
-        ),
-        body: Center(
-          child: FutureBuilder<Album>(
-            future: futureAlbum,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Text(snapshot.data.title);
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
-              // By default, show a loading spinner.
-              return CircularProgressIndicator();
-            },
+          title: Text("PortFolio"),
+          backgroundColor: Colors.deepPurple,
           ),
-        ),
-      ),
-    );
+        body: Builder(
+          builder: (context) => Padding(
+            padding: EdgeInsets.all(20),
+            child: Center(
+              child: Column(children: [
+                Row(
+                  children: <Widget>[
+                  Text(
+                    'XRP/USDT',
+                    style: TextStyle(fontSize: 14, color:
+                      Colors.deepPurpleAccent),
+                    ),
+                  Padding(
+                    padding: EdgeInsets.only(left:80),
+                    child:
+                    Text(
+                      roundForLabel(.1212313),
+                      style: TextStyle(fontSize: 16, color:
+                        Colors.red),
+                      )
+                    ),
+                  Padding(
+                    padding: EdgeInsets.only(left:50),
+                    child:
+                    Text(
+                      '.1212313',
+                      style: TextStyle(fontSize: 16, color:
+                        Colors.red),
+                      )
+                    )
+                  ],
+                ),
+                CoinView(),
+                RaisedButton(
+                  child: Text('Contact Us'),
+                  onPressed: () => contactUs(context),
+                  ),
+                ])
+              )
+            )
+          )
+        )
+      );
+  }
+
+  String roundForLabel(double val){
+    return val.toString();
+  }
+
+  void contactUs(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Contact Us'),
+          content: Text('Mail us at hello@world.com'),
+          actions: <Widget>[
+          FlatButton(
+            child: Text('Close'),
+            onPressed: () => Navigator.of(context).pop(),
+            )
+          ],
+          );
+        },
+        );
   }
 }
