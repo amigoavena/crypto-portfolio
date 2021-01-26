@@ -7,7 +7,17 @@ import 'portfolio_service.dart';
 
 class PortfolioServiceImpl implements PortfolioService {
 
-  static final defaultFavorites = [];
+  static final defaultFavorites = [PortfolioCoin(
+    coinAbr: 'SC',
+    initialCost: 1071.57,
+    initialPrice:  0.0048,
+    coinAmount:  223020.506250,
+  ),PortfolioCoin(
+    coinAbr: 'RSR',
+    initialCost: 989.46,
+    initialPrice:  0.0383,
+    coinAmount:  25855,
+  )];
 
   Api _api = locator<Api>();
   StorageService _storageService = locator<StorageService>();

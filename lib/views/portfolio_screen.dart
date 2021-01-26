@@ -1,8 +1,8 @@
 import 'package:portfolio_litium/app/locator.dart';
 import 'package:portfolio_litium/datamodel/portfolio_coin.dart';
 import 'package:portfolio_litium/services/price/portfolio_service.dart';
-import 'package:flutter/material.dart';
 import 'package:portfolio_litium/view_models/portfolio_viewmodel.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PortfolioScreen extends StatefulWidget {
@@ -120,7 +120,8 @@ class _PortfolioScreenScreenState extends State<PortfolioScreen> {
               subtitle: Text('${model.coins[index].initialCost}'),
               onTap: () {
                 model.setNewBaseCurrency(index);
-                _controller.clear();
+                _controller.text = '${model.coins[index].coinAmount}';
+                //_controller.clear();
               },
             ),
           );

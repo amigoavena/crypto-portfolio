@@ -42,12 +42,15 @@ import 'storage_service.dart';
 class StorageServiceImpl implements StorageService {
 
   static const sharedPrefExchangeRateKey1 = 'exchange_rate_key';
-  static const sharedPrefPortfolioKey = 'currency_key';
+  static const sharedPrefPortfolioKey = 'portfolio_key';
   static const sharedPrefLastCacheTimeKey = 'cache_time_key';
 
   @override
   Future<List<PortfolioCoin>> getPortfolioData() async {
     String data = await _getStringFromPreferences(sharedPrefPortfolioKey);
+    if (data == null || data == '') {
+      return null;
+    }
     List<PortfolioCoin> portfolioCoins = _deserializePortfolio(data);
     return Future<List<PortfolioCoin>>.value(portfolioCoins);
   }

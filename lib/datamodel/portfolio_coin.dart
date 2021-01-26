@@ -14,4 +14,11 @@ class PortfolioCoin {
         coinAbr: json['coinAbr']
     );
   }
+
+  Map toJson() => {
+    'initialPrice': initialPrice,
+    'initialCost': initialCost,
+    'coinAmount': coinAmount,
+    'coinAbr': coinAbr
+  };
 }
