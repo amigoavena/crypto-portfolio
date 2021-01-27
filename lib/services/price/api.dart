@@ -6,7 +6,7 @@ import '../../datamodel/coin_price.dart';
 /// The service responsible for networking requests
 @lazySingleton
 class Api {
-  static const endpoint = 'https://api.binance.com11/api/v3/avgPrice';
+  static const endpoint = 'https://api.binance.com/api/v3/avgPrice';
 
   var client = new http.Client();
 

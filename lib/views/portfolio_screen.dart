@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:portfolio_litium/app/locator.dart';
 import 'package:portfolio_litium/datamodel/portfolio_coin.dart';
 import 'package:portfolio_litium/services/price/portfolio_service.dart';
@@ -14,13 +16,20 @@ class PortfolioScreen extends StatefulWidget {
 
 class _PortfolioScreenScreenState extends State<PortfolioScreen> {
   PortfolioViewModel model = locator<PortfolioViewModel>();
-  TextEditingController _controller;
+
+  Timer timer;
+
+  TextEditingController _controller; // TODO remove controllers
 
   @override
   void initState() {
     model.loadData();
     _controller = TextEditingController();
     super.initState();
+    const twentyMillis = const Duration(milliseconds:3000);
+    //new Timer.periodic(twentyMillis, (Timer t) => setState((){
+    //  print("hi!");
+    //}));
   }
 
   @override
@@ -33,7 +42,7 @@ class _PortfolioScreenScreenState extends State<PortfolioScreen> {
             title: Text('Portfolio'),
             actions: <Widget>[
               IconButton(
-                icon: Icon(Icons.favorite),
+                icon: Icon(Icons.add),
                 onPressed: () async {},
               )
             ],
@@ -42,7 +51,7 @@ class _PortfolioScreenScreenState extends State<PortfolioScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               baseCurrencyTitle(model),
-              baseCurrencyTextField(model),
+              //baseCurrencyTextField(model), // TODO Align??
               quoteCurrencyList(model),
             ],
           ),
@@ -117,10 +126,11 @@ class _PortfolioScreenScreenState extends State<PortfolioScreen> {
                 ),
               ),
               title: Text('${model.coins[index].coinAmount}'),
-              subtitle: Text('${model.coins[index].initialCost}'),
+              subtitle: Text('${model.coins[index].gainsPercentage}'),
               onTap: () {
-                model.setNewBaseCurrency(index);
-                _controller.text = '${model.coins[index].coinAmount}';
+                //model.setNewBaseCurrency(index);
+                model.calculateGains();
+                //_controller.text = '${model.coins[index].coinAmount}';
                 //_controller.clear();
               },
             ),

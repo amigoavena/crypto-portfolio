@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import 'package:portfolio_litium/app/locator.dart';
+import 'package:portfolio_litium/datamodel/coin_price.dart';
 import 'package:portfolio_litium/datamodel/portfolio_coin.dart';
 import 'package:portfolio_litium/services/price/portfolio_service.dart';
 
@@ -28,6 +29,15 @@ class PortfolioViewModel extends ChangeNotifier {
 
   PortfolioCoin get baseCoin {
     return _baseCoin;
+  }
+
+  void calculateGains() async {
+    List<PortfolioCoin> withGains = [];
+    await Future.forEach(_coins, (element) async {
+      CoinPrice price = await _portfolioService.getCoinPrice("${element.coinAbr}USDT");
+      element.gainsPercentage = price.price;
+      withGains.add(element);
+    });
   }
 
   void calculateExchange(String baseAmount) async {

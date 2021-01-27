@@ -1,5 +1,5 @@
 class CoinPrice {
-  final int min;
+  final String min;
   final double price;
 
   CoinPrice({this.min, this.price});
@@ -7,7 +7,7 @@ class CoinPrice {
   factory CoinPrice.fromJson(Map<String, dynamic> json) {
     return CoinPrice(
         min: json['min'],
-        price: json['price']
+        price: double.parse(json['price'])
     );
   }
 }

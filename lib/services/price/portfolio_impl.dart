@@ -2,7 +2,7 @@ import 'package:portfolio_litium/app/locator.dart';
 import 'package:portfolio_litium/datamodel/coin_price.dart';
 import 'package:portfolio_litium/datamodel/portfolio_coin.dart';
 import 'package:portfolio_litium/services/price/api.dart';
-import 'package:portfolio_litium/services/storage/storage_service.dart';
+import 'package:portfolio_litium/services/storage/storage_service_db.dart';
 import 'portfolio_service.dart';
 
 class PortfolioServiceImpl implements PortfolioService {
@@ -20,12 +20,11 @@ class PortfolioServiceImpl implements PortfolioService {
   )];
 
   Api _api = locator<Api>();
-  StorageService _storageService = locator<StorageService>();
 
   @override
   Future<List<PortfolioCoin>> getPortfolio() async {
-    final favorites = await _storageService.getPortfolioData();
-    if (favorites == null || favorites.length <= 1) {
+    final favorites = await StorageServiceDB.db.getPortfolioData();
+    if (favorites == null || favorites.length < 1) {
       return defaultFavorites;
     }
     return favorites;
@@ -35,7 +34,7 @@ class PortfolioServiceImpl implements PortfolioService {
   Future<void> savePortfolio(List<PortfolioCoin> data) async {
     if (data == null || data.length == 0)
       return;
-    await _storageService.savePortFolio(data);
+    await StorageServiceDB.db.savePortFolio(data);
   }
 
   @override
