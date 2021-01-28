@@ -4,6 +4,8 @@ class PortfolioCoin {
   final double coinAmount;
   final String coinAbr;
   double gainsPercentage;
+  double currentPrice;
+  double totalValue;
 
   PortfolioCoin({this.initialPrice, this.initialCost, this.coinAmount, this.coinAbr});
 

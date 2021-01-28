@@ -28,9 +28,7 @@
  * THE SOFTWARE.
  */
 
-import 'dart:convert';
 import 'package:portfolio_litium/datamodel/portfolio_coin.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'storage_service.dart';
 

@@ -64,7 +64,6 @@ class StorageServiceDB implements StorageService {
 
   @override
   Future savePortFolio(List<PortfolioCoin> data) async {
-
     /*
     PortfolioCoin item;
 
@@ -76,7 +75,6 @@ class StorageServiceDB implements StorageService {
     );
     */
     return null;
-    throw UnimplementedError();
   }
 
 }

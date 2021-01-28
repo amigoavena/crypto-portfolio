@@ -8,11 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:portfolio_litium/services/price/portfolio_impl.dart';
 import 'package:portfolio_litium/services/price/portfolio_service.dart';
-import 'package:portfolio_litium/services/storage/storage_service_db.dart';
 import 'package:portfolio_litium/services/user_service.dart';
-import 'package:portfolio_litium/services/storage/storage_service.dart';
-import 'package:portfolio_litium/services/storage/storage_service_implementation.dart';
-import 'package:portfolio_litium/services/storage/storage_service_fake.dart';
 import 'package:portfolio_litium/view_models/portfolio_viewmodel.dart';
 
 import '../services/price/api.dart';

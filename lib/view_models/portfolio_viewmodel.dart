@@ -8,15 +8,7 @@ import 'package:portfolio_litium/services/price/portfolio_service.dart';
 class PortfolioViewModel extends ChangeNotifier {
   final PortfolioService _portfolioService = locator<PortfolioService>();
 
-  PortfolioCoin _baseCoin = defaultBaseCoin;
   List<PortfolioCoin> _coins = [];
-
-  static final PortfolioCoin defaultBaseCoin = PortfolioCoin(
-      coinAbr: '',
-      initialPrice: 0,
-      coinAmount: 0,
-      initialCost: 0
-  );
 
   void loadData() async {
     _coins = await _portfolioService.getPortfolio();
@@ -27,44 +19,16 @@ class PortfolioViewModel extends ChangeNotifier {
     return _coins;
   }
 
-  PortfolioCoin get baseCoin {
-    return _baseCoin;
-  }
-
   void calculateGains() async {
     List<PortfolioCoin> withGains = [];
-    await Future.forEach(_coins, (element) async {
+    //await Future.forEach(_coins, (<Portelement) async {
+      for (var element in _coins ) {
       CoinPrice price = await _portfolioService.getCoinPrice("${element.coinAbr}USDT");
-      element.gainsPercentage = price.price;
+      element.currentPrice = price.price;
+      element.totalValue = price.price*element.coinAmount;
+      element.gainsPercentage = (1 - (element.initialPrice/price.price))*100;
       withGains.add(element);
-    });
-  }
-
-  void calculateExchange(String baseAmount) async {
-    double amount;
-    try {
-      amount = double.parse(baseAmount);
-    } catch (e) {
-      _updateCurrenciesFor(0);
-      notifyListeners();
-      return null;
-    }
-
-    _updateCurrenciesFor(amount);
-
-    notifyListeners();
-  }
-
-  void _updateCurrenciesFor(double baseAmount) {
-
-  }
-
-  Future setNewBaseCurrency(int quoteCurrencyIndex) async {
-    _coins.add(_baseCoin);
-    _baseCoin = _coins[quoteCurrencyIndex];
-    _coins.removeAt(quoteCurrencyIndex);
-    await _portfolioService.savePortfolio(_coins);
-    loadData();
+    }//);
   }
 
 }
