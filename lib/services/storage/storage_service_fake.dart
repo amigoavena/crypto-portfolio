@@ -62,7 +62,7 @@ class StorageServiceFake implements StorageService {
   }
 
   @override
-  Future<void> savePortFolio(List<PortfolioCoin> data) {
+  Future<void> savePortfolio(PortfolioCoin data) {
     return null;
   }
 

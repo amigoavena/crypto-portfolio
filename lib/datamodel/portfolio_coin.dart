@@ -11,6 +11,15 @@ class PortfolioCoin {
 
   static final columns = ["coinAbr", "initialPrice", "initialCost", "coinAmount"];
 
+  factory PortfolioCoin.fromParams(double initialPrice, double initialCost, double coinAmount, String coinAbr) {
+    return PortfolioCoin(
+        initialPrice: initialPrice,
+        initialCost: initialCost,
+        coinAmount: coinAmount,
+        coinAbr: coinAbr
+    );
+  }
+
   factory PortfolioCoin.fromJson(Map<String, dynamic> json) {
     return PortfolioCoin(
         initialPrice: json['initialPrice'],

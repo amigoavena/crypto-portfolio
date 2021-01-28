@@ -56,7 +56,7 @@ class StorageServiceImpl implements StorageService {
   }
 
   @override
-  Future<void> savePortFolio(List<PortfolioCoin> data) {
+  Future<void> savePortfolio(PortfolioCoin data) {
     String jsonString = jsonEncode(data);
     _saveToPreferences(sharedPrefPortfolioKey, jsonString);
     _resetCacheTimeToNow();

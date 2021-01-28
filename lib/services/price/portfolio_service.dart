@@ -5,8 +5,10 @@ abstract class PortfolioService {
 
   Future<List<PortfolioCoin>> getPortfolio();
 
-  Future<void> savePortfolio(List<PortfolioCoin> data);
+  Future<void> savePortfolio(PortfolioCoin data);
 
   Future<CoinPrice> getCoinPrice(String coinPair);
+
+  Future<void> deletePortfolio(PortfolioCoin coin);
 
 }

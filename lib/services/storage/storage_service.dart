@@ -4,7 +4,7 @@ abstract class StorageService {
 
   Future<List<PortfolioCoin>> getPortfolioData();
 
-  Future savePortFolio(List<PortfolioCoin> data);
+  Future savePortfolio(PortfolioCoin data);
 
   Future<bool> isExpiredCache();
 }

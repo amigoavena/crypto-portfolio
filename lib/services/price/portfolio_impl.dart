@@ -7,40 +7,34 @@ import 'portfolio_service.dart';
 
 class PortfolioServiceImpl implements PortfolioService {
 
-  static final defaultFavorites = [PortfolioCoin(
-    coinAbr: 'SC',
-    initialCost: 1071.57,
-    initialPrice:  0.0048,
-    coinAmount:  223020.506250,
-  ),PortfolioCoin(
-    coinAbr: 'RSR',
-    initialCost: 989.46,
-    initialPrice:  0.0383,
-    coinAmount:  25855,
-  )];
+  static final defaultFavorites = [];
 
   Api _api = locator<Api>();
 
   @override
   Future<List<PortfolioCoin>> getPortfolio() async {
     final favorites = await StorageServiceDB.db.getPortfolioData();
-    if (favorites == null || favorites.length < 1) {
-      return defaultFavorites;
-    }
     return favorites;
   }
 
   @override
-  Future<void> savePortfolio(List<PortfolioCoin> data) async {
-    if (data == null || data.length == 0)
+  Future<void> savePortfolio(PortfolioCoin data) async {
+    if (data == null)
       return;
-    await StorageServiceDB.db.savePortFolio(data);
+    await StorageServiceDB.db.savePortfolio(data);
   }
 
   @override
   Future<CoinPrice> getCoinPrice(String coinPair) async {
     CoinPrice price = await _api.getCoinPrice(coinPair);
     return price;
+  }
+
+  @override
+  Future<void> deletePortfolio(PortfolioCoin coin) async {
+    if (coin == null)
+      return;
+    await StorageServiceDB.db.deletePortfolio(coin);
   }
   
 }

@@ -20,31 +20,16 @@ class PortfolioViewModel extends ChangeNotifier {
   }
 
   void calculateGains() async {
-    List<PortfolioCoin> withGains = [];
-    //await Future.forEach(_coins, (<Portelement) async {
-      for (var element in _coins ) {
+    for (var element in _coins ) {
       CoinPrice price = await _portfolioService.getCoinPrice("${element.coinAbr}USDT");
       element.currentPrice = price.price;
       element.totalValue = price.price*element.coinAmount;
       element.gainsPercentage = (1 - (element.initialPrice/price.price))*100;
-      withGains.add(element);
-    }//);
+    }
   }
 
-}
+  void deleteCoin(PortfolioCoin coin) async {
+    _portfolioService.deletePortfolio(coin);
+  }
 
-// A model class specifically for displaying data in a view. Everything is a
-// preformatted string.
-class CoinPresentation {
-  final String coinAbrv;
-  final String alphabeticCode;
-  final String longName;
-  String amount;
-
-  CoinPresentation({
-    this.coinAbrv,
-    this.alphabeticCode,
-    this.longName,
-    this.amount,
-  });
 }

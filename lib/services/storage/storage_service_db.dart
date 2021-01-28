@@ -63,18 +63,24 @@ class StorageServiceDB implements StorageService {
   }
 
   @override
-  Future savePortFolio(List<PortfolioCoin> data) async {
-    /*
-    PortfolioCoin item;
-
+  Future<void> savePortfolio(PortfolioCoin item) async {
     final db = await database;
-
     var result = await db.rawInsert(
         "INSERT INTO PortfolioCoins ('coinAbr', 'initialCost', 'initialPrice', 'coinAmount') values (?, ?, ?, ?)",
         [item.coinAbr, item.initialCost, item.initialPrice, item.coinAmount]
     );
-    */
     return null;
   }
+
+  Future<void> deletePortfolio(PortfolioCoin coin) async{
+    final db = await database;
+    await db.delete(
+      'PortfolioCoins',
+      where: "coinAbr = ? ",
+      whereArgs: [ coin.coinAbr ],
+    );
+  }
+
+
 
 }
