@@ -1,12 +1,12 @@
 class CoinPrice {
-  final String min;
+  final String symbol;
   final double price;
 
-  CoinPrice({this.min, this.price});
+  CoinPrice({this.symbol, this.price});
 
   factory CoinPrice.fromJson(Map<String, dynamic> json) {
     return CoinPrice(
-        min: json['min'],
+        symbol: json['symbol'],
         price: double.parse(json['price'])
     );
   }

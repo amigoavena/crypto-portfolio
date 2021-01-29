@@ -27,7 +27,11 @@ class _PortfolioScreenScreenState extends State<PortfolioScreen> {
 
   Future<void> _getData() async {
     setState(() {
-      model.calculateGains();
+      if(!model.isBusy) {
+        model.setBusy(true);
+        model.calculateGains();
+        model.setBusy(false);
+      }
     });
   }
 
@@ -53,6 +57,7 @@ class _PortfolioScreenScreenState extends State<PortfolioScreen> {
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              model.isBusy?CircularProgressIndicator():SizedBox.shrink(),
               quoteCurrencyList(model),
             ],
           ),

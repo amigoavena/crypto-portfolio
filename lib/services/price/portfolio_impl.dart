@@ -25,9 +25,9 @@ class PortfolioServiceImpl implements PortfolioService {
   }
 
   @override
-  Future<CoinPrice> getCoinPrice(String coinPair) async {
-    CoinPrice price = await _api.getCoinPrice(coinPair);
-    return price;
+  Future<List<CoinPrice>> getCoinPrices() async {
+    List<CoinPrice> prices = await _api.getCoinPrices();
+    return prices;
   }
 
   @override
