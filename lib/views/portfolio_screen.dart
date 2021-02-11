@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:portfolio_litium/app/locator.dart';
+import 'package:portfolio_litium/datamodel/portfolio_coin.dart';
 import 'package:portfolio_litium/view_models/portfolio_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:portfolio_litium/views/add_coin_screen.dart';
@@ -78,7 +79,9 @@ class _PortfolioScreenScreenState extends State<PortfolioScreen> {
             itemBuilder: (context, index) {
               return Card(
                   child: InkWell(
-                      onTap: (){},
+                      onTap: (){
+                        showAlertDialog(context,model.coins[index]);
+                      },
                       child: Padding(
                           padding: const EdgeInsets.only(left: 7, top: 6, right: 10),
                           child: Column(
@@ -93,7 +96,6 @@ class _PortfolioScreenScreenState extends State<PortfolioScreen> {
                                       ),
                                     ),
                                     Spacer(),
-
                                     Text( model.coins[index].gainsPercentage != null ? ' ${model.coins[index].gainsPercentage.toStringAsFixed(2)} % ': 'N/A',
                                         style: TextStyle(fontSize: 30, color: Colors.blueGrey , backgroundColor: model.coins[index].gainsPercentage != null && model.coins[index].gainsPercentage < 0 ? Colors.red : Colors.greenAccent)),
                                   ],
@@ -157,5 +159,88 @@ class _PortfolioScreenScreenState extends State<PortfolioScreen> {
             )
         )
     );
+  }
+
+  showAlertDialog(BuildContext context, PortfolioCoin coin) {
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Resumen:"),
+      content: Container(
+        height: 120.0,
+        child:
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 7, top: 6, right: 10),
+                child: Row(
+                  children: [
+                    Text('Current Gains (USD): '),
+                    Spacer(),
+                    coin.currentPrice != null ? calculateGains(coin): Text('N/A')
+                  ],
+                )
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(left: 7, top: 6, right: 10),
+                  child: Row(
+                    children: [
+                      Text('5% Position: '),
+                      Spacer(),
+                      Text('${(coin.initialPrice*1.05).toStringAsFixed(4)}')
+                    ],
+                  )
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(left: 7, top: 6, right: 10),
+                  child: Row(
+                    children: [
+                      Text('10% Position: '),
+                      Spacer(),
+                      Text('${(coin.initialPrice*1.10).toStringAsFixed(4)}')
+                    ],
+                  )
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(left: 7, top: 6, right: 10),
+                  child: Row(
+                    children: [
+                      Text('15% Position: '),
+                      Spacer(),
+                      Text('${(coin.initialPrice*1.15).toStringAsFixed(4)}')
+                    ],
+                  )
+              )
+            ],
+          ),
+      ),
+      actions: [
+        okButton,
+      ],
+    );
+    // show the dialog
+      showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  calculateGains(PortfolioCoin coin){
+    double gains = (coin.currentPrice * coin.coinAmount)-coin.initialCost;
+    MaterialAccentColor color = Colors.redAccent;
+    String symbol = '-';
+    if (gains > 0) {
+      color = Colors.greenAccent;
+      symbol = '+';
+    }
+    return Text('${symbol} \$${gains.toStringAsFixed(2)}',style: TextStyle( color: Colors.blueGrey, backgroundColor: color));
   }
 }
