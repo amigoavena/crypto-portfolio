@@ -76,8 +76,8 @@ class StorageServiceDB implements StorageService {
     final db = await database;
     await db.delete(
       'PortfolioCoins',
-      where: "coinAbr = ? ",
-      whereArgs: [ coin.coinAbr ],
+      where: "coinAbr = ? and coinAmount = ?",
+      whereArgs: [ coin.coinAbr, coin.coinAmount ],
     );
   }
 

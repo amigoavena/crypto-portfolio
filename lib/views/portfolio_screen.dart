@@ -71,83 +71,129 @@ class _PortfolioScreenScreenState extends State<PortfolioScreen> {
     return  model.coins.length != 0 ?
     Expanded(
       child: RefreshIndicator( // Scroll???
-          child: ListView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: false,
-            physics: const AlwaysScrollableScrollPhysics(), // new
-            itemCount: model.coins.length,
-            itemBuilder: (context, index) {
-              return Card(
-                  child: InkWell(
-                      onTap: (){
-                        showAlertDialog(context,model.coins[index]);
-                      },
-                      child: Padding(
-                          padding: const EdgeInsets.only(left: 7, top: 6, right: 10),
-                          child: Column(
-                              children: <Widget>[
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 100,
-                                      child: Text(
-                                        '${model.coins[index].coinAbr}',
-                                        style: TextStyle(fontSize: 30),
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Text( model.coins[index].gainsPercentage != null ? ' ${model.coins[index].gainsPercentage.toStringAsFixed(2)} % ': 'N/A',
-                                        style: TextStyle(fontSize: 30, color: Colors.blueGrey , backgroundColor: model.coins[index].gainsPercentage != null && model.coins[index].gainsPercentage < 0 ? Colors.red : Colors.greenAccent)),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 5),
-                                      child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Column(
-                                          children: [
-                                            model.coins[index].currentPrice != null ? Text('=${model.coins[index].currentPrice}'): Text('N/A'),
-                                            Text('=${model.coins[index].initialPrice}',style: TextStyle(color: Colors.deepOrangeAccent, ))
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 10, top: 5),
-                                      child: Text('${model.coins[index].coinAmount.toStringAsFixed(3)}',
-                                          style: TextStyle(
-                                              color: Colors.deepPurpleAccent
+          child: Column(
+            children: [
+              Container(
+                color: Colors.white10,
+                padding: const EdgeInsets.only(left: 7, top: 10, right: 10, bottom: 2),
+                child:
+                  Row(
+                  children: [
+                    Column(
+                      //
+                      children: [
+                        Row(
+                          children: [
+                            Text('USD', style: TextStyle(color: Colors.black))
+                          ],
+                        ),
+                        Container(
+                        //width: 100,
+                        //padding: const EdgeInsets.only(left: 7, top: 25, right: 50, bottom: 10),
+                        child:
+                          getTextGains()
+                      )]
+                      //child:
+                    ),
+                    Spacer(),
+                    Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text('Overall %', style: TextStyle(color: Colors.black))
+                          ],
+                        ),
+                        Text( model.overalGains != null ? ' ${model.overalGains.toStringAsFixed(2)} % ': 'N/A',
+                            style: TextStyle(fontSize: 30, color: model.overalGains != null && model.overalGains < 0 ? Colors.red : Colors.greenAccent ))
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      physics: const AlwaysScrollableScrollPhysics(), // new
+                      itemCount: model.coins.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                            child: InkWell(
+                                onTap: (){
+                                  showAlertDialog(context,model.coins[index]);
+                                },
+                                child: Padding(
+                                    padding: const EdgeInsets.only(left: 7, top: 6, right: 10),
+                                    child: Column(
+                                        children: <Widget>[
+                                          Row(
+                                            children: [
+                                              SizedBox(
+                                                width: 100,
+                                                child: Text(
+                                                  '${model.coins[index].coinAbr}',
+                                                  style: TextStyle(fontSize: 30),
+                                                ),
+                                              ),
+                                              Spacer(),
+                                              Text( model.coins[index].gainsPercentage != null ? ' ${model.coins[index].gainsPercentage.toStringAsFixed(2)} % ': 'N/A',
+                                                  style: TextStyle(fontSize: 30, color: Colors.blueGrey , backgroundColor: model.coins[index].gainsPercentage != null && model.coins[index].gainsPercentage < 0 ? Colors.red : Colors.greenAccent)),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(top: 5),
+                                                child: Align(
+                                                  alignment: Alignment.centerLeft,
+                                                  child: Column(
+                                                    children: [
+                                                      model.coins[index].currentPrice != null ? Text('=${model.coins[index].currentPrice}'): Text('N/A'),
+                                                      Text('=${model.coins[index].initialPrice}',style: TextStyle(color: Colors.deepOrangeAccent, ))
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              Spacer(),
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 10, top: 5),
+                                                child: Text('${model.coins[index].coinAmount.toStringAsFixed(3)}',
+                                                    style: TextStyle(
+                                                        color: Colors.deepPurpleAccent
+                                                    )
+                                                ),
+                                              ),
+                                              Spacer(),
+                                              Padding(
+                                                  padding: const EdgeInsets.only(left: 10, top: 5),
+                                                  child: Column(
+                                                    children: [
+                                                      model.coins[index].totalValue != null ? Text('\$${model.coins[index].totalValue.toStringAsFixed(3)}'): Text('N/A'),
+                                                      IconButton(
+                                                          icon: new Icon(Icons.delete),
+                                                          onPressed: (){
+                                                            print("deleted!- ${index}");
+                                                            model.deleteCoin(model.coins[index]);
+                                                            model.loadData();
+                                                          }
+                                                      )
+                                                    ],
+                                                  )
+                                              )
+                                            ],
                                           )
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Padding(
-                                        padding: const EdgeInsets.only(left: 10, top: 5),
-                                        child: Column(
-                                          children: [
-                                            model.coins[index].totalValue != null ? Text('\$${model.coins[index].totalValue.toStringAsFixed(3)}'): Text('N/A'),
-                                            IconButton(
-                                                icon: new Icon(Icons.delete),
-                                                onPressed: (){
-                                                  print("deleted!- ${index}");
-                                                  model.deleteCoin(model.coins[index]);
-                                                  model.loadData();
-                                                }
-                                            )
-                                          ],
-                                        )
+                                        ]
                                     )
-                                  ],
                                 )
-                              ]
-                          )
-                      )
-                  )
-              );
-            },
+                            )
+                        );
+                      },
+                    )
+                )],
+              )
+            ],
           ),
           onRefresh: _getData
       )
@@ -231,6 +277,17 @@ class _PortfolioScreenScreenState extends State<PortfolioScreen> {
         return alert;
       },
     );
+  }
+
+  getTextGains(){
+    String symbol = '-';
+    Color color = Colors.red;
+    if(model.totalDelta > 0 ){
+      color = Colors.green;
+      symbol = '+';
+    }
+    return Text( '${symbol} \$${model.totalDelta.toStringAsFixed(2)}',
+        style: TextStyle(fontSize: 25, color: color ));
   }
 
   calculateGains(PortfolioCoin coin){
