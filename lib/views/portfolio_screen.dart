@@ -159,11 +159,29 @@ class _PortfolioScreenScreenState extends State<PortfolioScreen> {
                                               Spacer(),
                                               Padding(
                                                 padding: const EdgeInsets.only(left: 10, top: 5),
-                                                child: Text('${model.coins[index].coinAmount.toStringAsFixed(3)}',
-                                                    style: TextStyle(
-                                                        color: Colors.deepPurpleAccent
+                                                child:
+                                                Column(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Text('\$${model.coins[index].initialCost.toStringAsFixed(3)}',
+                                                            style: TextStyle(
+                                                                color: Colors.deepPurpleAccent
+                                                            )
+                                                        )
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Text('${model.coins[index].coinAmount.toStringAsFixed(3)}',
+                                                            style: TextStyle(
+                                                                color: Colors.pinkAccent
+                                                            )
+                                                        )
+                                                      ],
                                                     )
-                                                ),
+                                                  ],
+                                                )
                                               ),
                                               Spacer(),
                                               Padding(
