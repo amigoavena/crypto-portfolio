@@ -110,106 +110,105 @@ class _PortfolioScreenScreenState extends State<PortfolioScreen> {
                   ],
                 ),
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      physics: const AlwaysScrollableScrollPhysics(), // new
-                      itemCount: model.coins.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                            child: InkWell(
-                                onTap: (){
-                                  showAlertDialog(context,model.coins[index]);
-                                },
-                                child: Padding(
-                                    padding: const EdgeInsets.only(left: 7, top: 6, right: 10),
-                                    child: Column(
-                                        children: <Widget>[
-                                          Row(
-                                            children: [
-                                              SizedBox(
-                                                width: 100,
-                                                child: Text(
-                                                  '${model.coins[index].coinAbr}',
-                                                  style: TextStyle(fontSize: 30),
-                                                ),
-                                              ),
-                                              Spacer(),
-                                              Text( model.coins[index].gainsPercentage != null ? ' ${model.coins[index].gainsPercentage.toStringAsFixed(2)} % ': 'N/A',
-                                                  style: TextStyle(fontSize: 30, color: Colors.blueGrey , backgroundColor: model.coins[index].gainsPercentage != null && model.coins[index].gainsPercentage < 0 ? Colors.red : Colors.greenAccent)),
-                                            ],
+              Container(
+                height: MediaQuery.of(context).size.height * 0.8,
+                //mainAxisSize: MainAxisSize.min,
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  physics: const AlwaysScrollableScrollPhysics(), // new
+                  itemCount: model.coins.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                        child: InkWell(
+                            onTap: (){
+                              showAlertDialog(context,model.coins[index]);
+                            },
+                            child: Padding(
+                                padding: const EdgeInsets.only(left: 7, top: 6, right: 10),
+                                child: Column(
+                                    children: <Widget>[
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 100,
+                                            child: Text(
+                                              '${model.coins[index].coinAbr}',
+                                              style: TextStyle(fontSize: 30),
+                                            ),
                                           ),
-                                          Row(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(top: 5),
-                                                child: Align(
-                                                  alignment: Alignment.centerLeft,
-                                                  child: Column(
+                                          Spacer(),
+                                          Text( model.coins[index].gainsPercentage != null ? ' ${model.coins[index].gainsPercentage.toStringAsFixed(2)} % ': 'N/A',
+                                              style: TextStyle(fontSize: 30, color: Colors.blueGrey , backgroundColor: model.coins[index].gainsPercentage != null && model.coins[index].gainsPercentage < 0 ? Colors.red : Colors.greenAccent)),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 5),
+                                            child: Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Column(
+                                                children: [
+                                                  model.coins[index].currentPrice != null ? Text('=${model.coins[index].currentPrice}'): Text('N/A'),
+                                                  Text('=${model.coins[index].initialPrice}',style: TextStyle(color: Colors.deepOrangeAccent, ))
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Spacer(),
+                                          Padding(
+                                              padding: const EdgeInsets.only(left: 10, top: 5),
+                                              child:
+                                              Column(
+                                                children: [
+                                                  Row(
                                                     children: [
-                                                      model.coins[index].currentPrice != null ? Text('=${model.coins[index].currentPrice}'): Text('N/A'),
-                                                      Text('=${model.coins[index].initialPrice}',style: TextStyle(color: Colors.deepOrangeAccent, ))
+                                                      Text('\$${model.coins[index].initialCost.toStringAsFixed(3)}',
+                                                          style: TextStyle(
+                                                              color: Colors.deepPurpleAccent
+                                                          )
+                                                      )
                                                     ],
                                                   ),
-                                                ),
-                                              ),
-                                              Spacer(),
-                                              Padding(
-                                                padding: const EdgeInsets.only(left: 10, top: 5),
-                                                child:
-                                                Column(
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Text('\$${model.coins[index].initialCost.toStringAsFixed(3)}',
-                                                            style: TextStyle(
-                                                                color: Colors.deepPurpleAccent
-                                                            )
-                                                        )
-                                                      ],
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Text('${model.coins[index].coinAmount.toStringAsFixed(3)}',
-                                                            style: TextStyle(
-                                                                color: Colors.pinkAccent
-                                                            )
-                                                        )
-                                                      ],
-                                                    )
-                                                  ],
-                                                )
-                                              ),
-                                              Spacer(),
-                                              Padding(
-                                                  padding: const EdgeInsets.only(left: 10, top: 5),
-                                                  child: Column(
+                                                  Row(
                                                     children: [
-                                                      model.coins[index].totalValue != null ? Text('\$${model.coins[index].totalValue.toStringAsFixed(3)}'): Text('N/A'),
-                                                      IconButton(
-                                                          icon: new Icon(Icons.delete),
-                                                          onPressed: (){
-                                                            print("deleted!- ${index}");
-                                                            model.deleteCoin(model.coins[index]);
-                                                            model.loadData();
-                                                          }
+                                                      Text('${model.coins[index].coinAmount.toStringAsFixed(3)}',
+                                                          style: TextStyle(
+                                                              color: Colors.pinkAccent
+                                                          )
                                                       )
                                                     ],
                                                   )
+                                                ],
                                               )
-                                            ],
+                                          ),
+                                          Spacer(),
+                                          Padding(
+                                              padding: const EdgeInsets.only(left: 10, top: 5),
+                                              child: Column(
+                                                children: [
+                                                  model.coins[index].totalValue != null ? Text('\$${model.coins[index].totalValue.toStringAsFixed(3)}'): Text('N/A'),
+                                                  IconButton(
+                                                      icon: new Icon(Icons.delete),
+                                                      onPressed: (){
+                                                        print("deleted!- ${index}");
+                                                        model.deleteCoin(model.coins[index]);
+                                                        model.loadData();
+                                                      }
+                                                  )
+                                                ],
+                                              )
                                           )
-                                        ]
-                                    )
+                                        ],
+                                      )
+                                    ]
                                 )
                             )
-                        );
-                      },
-                    )
-                )],
+                        )
+                    );
+                  },
+                ),
               )
             ],
           ),
